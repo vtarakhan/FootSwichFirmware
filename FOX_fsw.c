@@ -36,6 +36,7 @@ Data Stack size     : 256
 #include <stdio.h>
 
 #define BUTTON_DELAY 300 // ms
+#define ADC_DELAY 30 // ms
 
 
 //номер миди контроллера для каждой функции устройства (можно сделать настраиваемым, но пока жестко закреплено)
@@ -70,14 +71,14 @@ Data Stack size     : 256
 //Настройки хранятся в энергонезависимой памяти
 //Эти значения(нули) запишутся в память при программировании, 
 //далее при включении/выключении железяки будут хранить настроенное значение
-eeprom unsigned char ucP1[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP2[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP3[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP4[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP5[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP6[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP7[10] = {0,0,0,0,0,0,0,0,0,0};
-eeprom unsigned char ucP8[10] = {0,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP1[10] = {9,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP2[10] = {11,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP3[10] = {12,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP4[10] = {13,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP5[10] = {11,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP6[10] = {13,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP7[10] = {9,0,0,0,0,0,0,0,0,0};
+eeprom unsigned char ucP8[10] = {12,0,0,0,0,0,0,0,0,0};
 
 
 //4 переключаемых программы(пресета)
@@ -100,6 +101,7 @@ unsigned char ucFX5_sw = 0;
 unsigned char ucFX6_sw = 0;
 unsigned char ucFX7_sw = 0;
 unsigned char ucFX8_sw = 0;
+//char ADC_v[4];
 unsigned int ADC_voltage = 0;
 unsigned int ADC_voltage_old = 0;
 //первый активный по умолчанию
@@ -350,7 +352,7 @@ UBRRL=0x07;
 ACSR=0x80;
 SFIOR=0x00;
 ADMUX=7;
-ADCSR=0x85;
+ADCSR=0x87;
 
 
 
@@ -387,10 +389,17 @@ lcd_init(16);
 while (1)
       { 
         ADCSR |= 0x40;
-        ADC_voltage = ADCW/8; 
+        ADC_voltage = (ADCW>>2)-3;    
+         if (ADC_voltage > 112)
+           { ADC_voltage=127 ;}
         if ( ADC_voltage != ADC_voltage_old)
-          { MIDI_CC_send(EXP, ADC_voltage);
+          { 
+           MIDI_CC_send(EXP, ADC_voltage);
+           //lcd_gotoxy(0, 0);
+           //itoa(ADC_voltage, ADC_v);
+           //lcd_puts(ADC_v);
             ADC_voltage_old = ADC_voltage;
+            delay_ms(ADC_DELAY); 
           }
         if (s_inc_sw == 0) //инкремент значения
          {
