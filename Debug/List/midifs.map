@@ -1,0 +1,70 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+ucFX2_sw                                                                          0x0160       1
+ucFX3_sw                                                                          0x0161       1
+ucFX4_sw                                                                          0x0162       1
+ucFX5_sw                                                                          0x0163       1
+ucFX6_sw                                                                          0x0164       1
+ucFX7_sw                                                                          0x0165       1
+ucFX8_sw                                                                          0x0166       1
+ADC_voltage                                                                       0x0167       2
+ADC_voltage_old                                                                   0x0169       2
+CurPreset                                                                         0x016B       2
+nBnkNum                                                                           0x016D       1
+_base_y                                                                           0x016E       4
+_lcd_x                                                                            0x0172       1
+_lcd_y                                                                            0x0173       1
+_lcd_maxx                                                                         0x0174       1
+_seed                                                                             0x0175       4
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+ucP1                                                                              0x0000      10
+ucP2                                                                              0x000A      10
+ucP3                                                                              0x0014      10
+ucP4                                                                              0x001E      10
+ucP5                                                                              0x0028      10
+ucP6                                                                              0x0032      10
+ucP7                                                                              0x003C      10
+ucP8                                                                              0x0046      10
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+nPreset_1                                                                         R5           1
+nPreset_2                                                                         R4           1
+nPreset_3                                                                         R7           1
+nPreset_4                                                                         R6           1
+nPreset_5                                                                         R9           1
+nPreset_6                                                                         R8           1
+nPreset_7                                                                         R11          1
+nPreset_8                                                                         R10          1
+ucPC_sw                                                                           R13          1
+ucFX1_sw                                                                          R12          1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+MIDI_CC_send                                                                      0x0009A     12
+MIDI_PC_send                                                                      0x000A6      9
+redraw_main_window                                                                0x000AF    222
+redraw_load_window                                                                0x00193     16
+main                                                                              0x001A3    788
+_lcd_delay_G100                                                                   0x004B7      4
+_lcd_ready                                                                        0x004BB     17
+_lcd_write_nibble_G100                                                            0x004CC     10
+_lcd_write_data                                                                   0x004D6     15
+_lcd_read_nibble_G100                                                             0x004E5      9
+lcd_read_byte0_G100                                                               0x004EE      9
+lcd_gotoxy                                                                        0x004F7     20
+lcd_clear                                                                         0x0050B     21
+lcd_putchar                                                                       0x00520     39
+lcd_puts                                                                          0x00547     15
+lcd_putsf                                                                         0x00556     19
+_long_delay_G100                                                                  0x00569      5
+_lcd_init_write_G100                                                              0x0056E     13
+lcd_init                                                                          0x0057B     53
+itoa                                                                              0x005B0     46
+putchar                                                                           0x005DE      7
