@@ -1,6 +1,0 @@
-main DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"FOX_fsw1.c" LINE:249
-redraw_main_window DSTACK_USAGE:32 DSTACK_LEVEL:32 FILE:"FOX_fsw1.c" LINE:126
-lcd_puts DSTACK_USAGE:3 DSTACK_LEVEL:35 FILE:"C:\cvavr\lib\lcd.lib" LINE:210
-lcd_putchar DSTACK_USAGE:1 DSTACK_LEVEL:36 FILE:"C:\cvavr\lib\lcd.lib" LINE:178
-lcd_gotoxy DSTACK_USAGE:2 DSTACK_LEVEL:38 FILE:"C:\cvavr\lib\lcd.lib" LINE:158
-_lcd_write_data DSTACK_USAGE:1 DSTACK_LEVEL:39 FILE:"C:\cvavr\lib\lcd.lib" LINE:77
