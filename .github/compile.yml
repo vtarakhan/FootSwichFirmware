@@ -1,0 +1,64 @@
+name: PlatformIO CI/CD for ATmega16
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*' # Спрацьовує на теги типу v1.0, v2.0-rc1 тощо
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-node-version: '3.10'
+
+    - name: Install PlatformIO Core
+      run: |
+        python -m pip install --upgrade pip
+        pip install --upgrade platformio
+
+    - name: Build PlatformIO Project
+      run: pio run
+
+    # --- КРОК ДЛЯ ЗВИЧАЙНОГО КОМІТУ В MASTER ---
+    # Зберігає артефакти в GitHub Actions (доступні 90 днів)
+    - name: Upload Firmware Artifacts
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      uses: actions/upload-artifact@v4
+      with:
+        name: atmega16-firmware-latest
+        path: |
+          .pio/build/atmega16/firmware.hex
+          .pio/build/atmega16/firmware.eep
+        retention-days: 7
+
+    # --- КРОКИ ДЛЯ СТВОРЕННЯ РЕЛІЗУ ПРИ СТВОРЕННІ ТЕГУ ---
+    # Перейменовуємо файли, щоб у релізі вони мали гарні назви з версією
+    - name: Prepare Release Artifacts
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        mkdir -p release_files
+        cp .pio/build/atmega16/firmware.hex release_files/XanLab_FS_${{ github.ref_name }}.hex
+        cp .pio/build/atmega16/firmware.eep release_files/XanLab_FS_${{ github.ref_name }}.eep
+
+    - name: Create GitHub Release and Upload Assets
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          release_files/*.hex
+          release_files/*.eep
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
