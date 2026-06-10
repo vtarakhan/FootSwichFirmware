@@ -1,6 +1,10 @@
 import os
 import subprocess
 
+# Імпортуємо об'єкт оточення 'env' за стандартами PlatformIO / SCons
+from SCons.Script import Import
+Import("env")
+
 def make_eeprom(source, target, env):
     # Отримуємо шляхи до файлу прошивки .elf та майбутнього .eep
     elf_file = os.path.join(env.subst("$BUILD_DIR"), "firmware.elf")
@@ -26,6 +30,4 @@ def make_eeprom(source, target, env):
     subprocess.run(cmd)
 
 # Реєструємо функцію для виконання ПІСЛЯ того, як збудується головний .elf файл
-# Використовуємо глобальну змінну 'env', яку PlatformIO автоматично прокидає в скрипт
-global env
 env.AddPostAction("$BUILD_DIR/${PROGNAME}.elf", make_eeprom)
